@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HealthDisplay : MonoBehaviour
 {
     //Доделать куротину. создать внова заного весь UI....
-
+    // Запомнить что надо сохранять ЮНИТИ ХОТЯ БЫ РАЗ В ЧАС!!!!!!!
 
     [SerializeField] private Health _health;
     [SerializeField] private TextMeshProUGUI _text;
