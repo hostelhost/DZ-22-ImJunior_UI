@@ -9,7 +9,7 @@ public class Health : MonoBehaviour, ITakingDamage, IGettingLife
 
     public event Action HealthHasChanged;
 
-    private void Start()
+    private void Awake()
     {
         LifeForce = _maximumLifeForce;
     }

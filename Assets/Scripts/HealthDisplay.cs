@@ -5,18 +5,17 @@ using UnityEngine.UI;
 
 public class HealthDisplay : MonoBehaviour
 {
-    //Доделать куротину. создать внова заного весь UI....
-    // Запомнить что надо сохранять ЮНИТИ ХОТЯ БЫ РАЗ В ЧАС!!!!!!!
-
     [SerializeField] private Health _health;
     [SerializeField] private TextMeshProUGUI _text;
     [SerializeField] private Slider _slider;
     [SerializeField] private Slider _smoothSlider;
     [SerializeField] private float _speed = 1f;
-    [SerializeField] private float _delayTime = 0.5f;
+    [SerializeField] private float _delayTime = 0.1f;
 
     private int _maximumLifeForce;
     private WaitForSeconds _waitForSeconds;
+    private Coroutine _coroutine;
+
     private void Start()
     {
         Initialization();
@@ -47,7 +46,7 @@ public class HealthDisplay : MonoBehaviour
     {
         PrintText();
         SlideSlider();
-        SlideSmoothSlider();
+        StartSmoothSlide();
     }
 
     private void PrintText()
@@ -59,20 +58,20 @@ public class HealthDisplay : MonoBehaviour
         _slider.value = _health.LifeForce;
     }
 
-    private void SlideSmoothSlider()
+    private void StartSmoothSlide()
     {
-        //_smoothSlider.value = Mathf.MoveTowards(_smoothSlider.value, _health.LifeForce, _speed);
-        StartCoroutine(AAA(_smoothSlider.value, _health.LifeForce));
+        if (_coroutine != null)
+            StopCoroutine(_coroutine);
+
+        _coroutine = StartCoroutine(SmoothSlide());
     }
 
-    private IEnumerator AAA(float current, int target)
+    private IEnumerator SmoothSlide()
     {
-        while (current != target)
+        while (_smoothSlider.value != _health.LifeForce)
         {
-            _smoothSlider.value = Mathf.MoveTowards(current, target, _speed);
-           
+            _smoothSlider.value = Mathf.MoveTowards(_smoothSlider.value, _health.LifeForce, _speed);
+            yield return _waitForSeconds;
         }
-
-        yield return _waitForSeconds;
     }
 }
