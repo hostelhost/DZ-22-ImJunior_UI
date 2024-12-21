@@ -1,16 +1,13 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthDisplay : MonoBehaviour
+public class HealthSmoothSliderDisplay : MonoBehaviour
 {
     [SerializeField] private Health _health;
-    [SerializeField] private TextMeshProUGUI _text;
-    [SerializeField] private Slider _slider;
     [SerializeField] private Slider _smoothSlider;
     [SerializeField] private float _speed = 1f;
-    [SerializeField] private float _delayTime = 0.1f;
+    [SerializeField] private float _delayTime = 0.05f;
 
     private int _maximumLifeForce;
     private WaitForSeconds _waitForSeconds;
@@ -23,50 +20,30 @@ public class HealthDisplay : MonoBehaviour
 
     private void OnEnable()
     {
-        _health.HealthHasChanged += Print;
+        _health.HealthHasChanged += StartSmoothSlide;
     }
 
     private void OnDisable()
     {
-        _health.HealthHasChanged -= Print;
+        _health.HealthHasChanged -= StartSmoothSlide;
     }
 
     private void Initialization()
     {
         _maximumLifeForce = _health.GetMaximumLifeForce();
-        _slider.maxValue = _maximumLifeForce;
-        _slider.value = _maximumLifeForce;
         _smoothSlider.maxValue = _maximumLifeForce;
         _smoothSlider.value = _maximumLifeForce;
-        PrintText();
         _waitForSeconds = new WaitForSeconds(_delayTime);
     }
-
-    private void Print()
-    {
-        PrintText();
-        SlideSlider();
-        StartSmoothSlide();
-    }
-
-    private void PrintText()
-    {
-        _text.text = $"Çהמנמגüו: {_health.LifeForce}/{_maximumLifeForce}";
-    }
-    private void SlideSlider()
-    {
-        _slider.value = _health.LifeForce;
-    }
-
     private void StartSmoothSlide()
     {
         if (_coroutine != null)
             StopCoroutine(_coroutine);
 
-        _coroutine = StartCoroutine(SmoothSlide());
+        _coroutine = StartCoroutine(Print());
     }
 
-    private IEnumerator SmoothSlide()
+    private IEnumerator Print()
     {
         while (_smoothSlider.value != _health.LifeForce)
         {
