@@ -1,7 +1,8 @@
 using System;
+using System.Text;
 using UnityEngine;
 
-public class Health : MonoBehaviour, ITakingDamage, IGettingLife
+public class Health : MonoBehaviour
 {
     [SerializeField] private int _maximumLifeForce = 100;
 
@@ -14,31 +15,43 @@ public class Health : MonoBehaviour, ITakingDamage, IGettingLife
         LifeForce = _maximumLifeForce;
     }
 
+    public int GetMaximumLifeForce() =>
+        _maximumLifeForce;
+
     public void TakeDamage(int damage)
     {
-        LifeForce -= damage;       
-        IsAlive();
-        HealthHasChanged?.Invoke();
+        if (CheckerIncoming(damage))
+        {
+            LifeForce -= damage;
+
+            if (IsAlive() == false)
+                Destroy(gameObject);
+
+            HealthHasChanged?.Invoke();
+        }
     }
 
     public void TryToAcceptLifeForce(int lifeForce)
     {
-        if (_maximumLifeForce <= lifeForce + LifeForce)
-            LifeForce = _maximumLifeForce;
-        else
-            LifeForce += lifeForce;
+        if (CheckerIncoming(lifeForce))
+        {
+            AcceptLifeForce(lifeForce);
 
-        HealthHasChanged?.Invoke();
+            HealthHasChanged?.Invoke();
+        }
     }
 
-    public int GetMaximumLifeForce()
+    private void AcceptLifeForce(int lifeForce)
     {
-        return _maximumLifeForce;
+            if (_maximumLifeForce <= lifeForce + LifeForce)
+                LifeForce = _maximumLifeForce;
+            else
+                LifeForce += lifeForce;
     }
 
-    private void IsAlive()
-    {
-        if (0 >= LifeForce)
-            Destroy(gameObject);
-    }
+    private bool CheckerIncoming(int incoming) =>
+        incoming > 0;
+
+    private bool IsAlive() =>
+        0 < LifeForce;
 }
