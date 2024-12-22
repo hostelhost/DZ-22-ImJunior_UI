@@ -346,6 +346,7 @@ GameObject:
   - component: {fileID: 256271671}
   - component: {fileID: 256271672}
   - component: {fileID: 256271673}
+  - component: {fileID: 256271674}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -449,7 +450,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cefc1abba0124047870f051b0149ffe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: {fileID: 559971678}
   _text: {fileID: 72303559}
 --- !u!114 &256271672
 MonoBehaviour:
@@ -463,7 +463,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc6edc7b812692c498bb1d706a706f76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: {fileID: 559971678}
   _slider: {fileID: 1633341389}
 --- !u!114 &256271673
 MonoBehaviour:
@@ -477,10 +476,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 650fb70dca0223042b9fb437e0d47908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: {fileID: 559971678}
   _smoothSlider: {fileID: 1464503859}
   _speed: 1
   _delayTime: 0.01
+--- !u!114 &256271674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256271665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e99e9eeaf712fe468942f884c099472, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: {fileID: 559971678}
+  _healthTextDisplay: {fileID: 256271671}
+  _healthSliderDisplay: {fileID: 256271672}
+  _healthSmoothSliderDisplay: {fileID: 256271673}
 --- !u!1 &297548738
 GameObject:
   m_ObjectHideFlags: 0

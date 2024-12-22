@@ -3,35 +3,16 @@ using UnityEngine.UI;
 
 public class HealthSliderDisplay : MonoBehaviour
 {
-    [SerializeField] private Health _health;
     [SerializeField] private Slider _slider;
 
-    private int _maximumLifeForce;
-
-    private void Start()
+    public void Initialization(int maximumLifeForce)
     {
-        Initialization();
+        _slider.maxValue = maximumLifeForce;
+        _slider.value = maximumLifeForce;
     }
 
-    private void OnEnable()
+    public void Print(int lifeForce)
     {
-        _health.HealthHasChanged += Print;
-    }
-
-    private void OnDisable()
-    {
-        _health.HealthHasChanged -= Print;
-    }
-
-    private void Initialization()
-    {
-        _maximumLifeForce = _health.GetMaximumLifeForce();
-        _slider.maxValue = _maximumLifeForce;
-        _slider.value = _maximumLifeForce;
-    }
-
-    private void Print()
-    {
-        _slider.value = _health.LifeForce;
+        _slider.value = lifeForce;
     }
 }

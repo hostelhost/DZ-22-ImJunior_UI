@@ -4,50 +4,32 @@ using UnityEngine.UI;
 
 public class HealthSmoothSliderDisplay : MonoBehaviour
 {
-    [SerializeField] private Health _health;
     [SerializeField] private Slider _smoothSlider;
     [SerializeField] private float _speed = 1f;
-    [SerializeField] private float _delayTime = 0.05f;
+    [SerializeField] private float _delayTime = 0.03f;
 
-    private int _maximumLifeForce;
     private WaitForSeconds _waitForSeconds;
     private Coroutine _coroutine;
 
-    private void Start()
+    public void Initialization(int maximumLifeForce)
     {
-        Initialization();
-    }
-
-    private void OnEnable()
-    {
-        _health.HealthHasChanged += StartSmoothSlide;
-    }
-
-    private void OnDisable()
-    {
-        _health.HealthHasChanged -= StartSmoothSlide;
-    }
-
-    private void Initialization()
-    {
-        _maximumLifeForce = _health.GetMaximumLifeForce();
-        _smoothSlider.maxValue = _maximumLifeForce;
-        _smoothSlider.value = _maximumLifeForce;
+        _smoothSlider.maxValue = maximumLifeForce;
+        _smoothSlider.value = maximumLifeForce;
         _waitForSeconds = new WaitForSeconds(_delayTime);
     }
-    private void StartSmoothSlide()
+    public void StartSmoothSlide(int lifeForce)
     {
         if (_coroutine != null)
             StopCoroutine(_coroutine);
 
-        _coroutine = StartCoroutine(Print());
+        _coroutine = StartCoroutine(Print(lifeForce));
     }
 
-    private IEnumerator Print()
+    private IEnumerator Print(int lifeForce)
     {
-        while (_smoothSlider.value != _health.LifeForce)
+        while (_smoothSlider.value != lifeForce)
         {
-            _smoothSlider.value = Mathf.MoveTowards(_smoothSlider.value, _health.LifeForce, _speed);
+            _smoothSlider.value = Mathf.MoveTowards(_smoothSlider.value, lifeForce, _speed);
             yield return _waitForSeconds;
         }
     }
